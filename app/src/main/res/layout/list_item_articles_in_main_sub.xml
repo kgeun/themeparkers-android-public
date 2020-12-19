@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="articleItem"
+            type="com.kgeun.themeparkers.data.Article" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/articleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        setArticleClick="@{articleItem.url}">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageArticleThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:elevation="0dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.github.abdularis.piv.VerticalScrollParallaxImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:atclThumbnail="@{articleItem.thumbnailUrl}"
+                tools:background="@drawable/image_placeholder_wide"
+                android:background="@color/white"
+                android:src="@color/white"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_8dp"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textArticleTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="14dp"
+                    android:breakStrategy="simple"
+                    android:ellipsize="end"
+                    android:hyphenationFrequency="none"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="4dp"
+                    android:maxLines="2"
+                    android:textColor="@drawable/common_text_selector"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:text="@{articleItem.title}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/ivAuthor"
+                    app:layout_constraintBottom_toTopOf="@id/textAuthor"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="도쿄 디즈니랜드 - 미녀와 야수 '마법 이야기' 라이드 영상 공개" />
+
+                <ImageView
+                    android:id="@+id/ivAuthor"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    app:atclAuthorThumbnail="@{articleItem.authorThumbnailUrl}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textAuthor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="14dp"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="3dp"
+                    android:maxLines="1"
+                    android:text="@{articleItem.siteName}"
+                    android:textColor="@color/basicBlack0.5"
+                    android:textSize="11dp"
+                    app:layout_constraintRight_toLeftOf="@id/ivAuthor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textArticleTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="하늘급행" />
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:background="@color/basicBlack0.05" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

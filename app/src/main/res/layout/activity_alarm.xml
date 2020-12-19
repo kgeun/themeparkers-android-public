@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="atItem"
+            type="com.kgeun.themeparkers.data.Attraction" />
+
+        <variable
+            name="alarmItem"
+            type="com.kgeun.themeparkers.data.ShowAlarmItem" />
+
+        <variable
+            name="beforeMin"
+            type="java.lang.Integer" />
+
+        <import
+            type="android.view.View"/>
+
+        <import
+            type="android.text.TextUtils"/>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/svAtrcContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingBottom="145dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/atrcDetailThumbnailLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp">
+
+                    <ImageView
+                        android:id="@+id/imgAtrcDetailThumbnail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:thumbnailUrl="@{atItem.thumbnailUrl}"
+                        app:largeThumbnailUrl="@{atItem.largeThumbnailUrl}"/>
+
+                    <ImageView
+                        android:id="@+id/thumbnailGradient"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/big_thumbnail_gradient"/>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/global_margin_horizontal">
+
+                        <TextView
+                            android:id="@+id/textAtrcName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:textColor="@color/basicBlack"
+                            android:textSize="22dp"
+                            android:textStyle="bold"
+                            android:text="@{atItem.nameKR}"/>
+
+                        <TextView
+                            android:id="@+id/textAtrcNameSub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/textAtrcName"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:textColor="@color/disabled1"
+                            android:textSize="17dp"
+                            android:visibility="@{atItem.name.isEmpty()? View.INVISIBLE : View.VISIBLE}"
+                            android:text="@{atItem.name}"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:textSize="17dp"
+                            android:textColor="@color/basicBlack"
+                            android:text="@{`공연시간 ` + alarmItem.showTime}"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="7dp"
+                            android:gravity="center"
+                            android:textSize="19dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/basicBlack"
+                            android:text="@{beforeMin + `분 전 알림`}"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/alarmFooterLayout"
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:paddingTop="5dp"
+            android:paddingVertical="20dp">
+
+            <TextView
+                android:id="@+id/btnOpen"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:background="@drawable/bg_highlight_sub_10dp"
+                android:gravity="center"
+                android:text="자세히 보기"
+                android:textColor="@drawable/common_white_text_selector" />
+
+            <TextView
+                android:id="@+id/btnClose"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_bg_white_10dp"
+                android:textColor="@drawable/common_text_selector"
+                android:gravity="center"
+                android:text="닫기" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

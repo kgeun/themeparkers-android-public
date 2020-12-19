@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="statusbar_height">25dp</dimen>
+    <dimen name="text_size_tp_title">18dp</dimen>
+    <dimen name="global_margin_horizontal">17dp</dimen>
+    <dimen name="atrc_info_margin_vertical">16dp</dimen>
+    <dimen name="global_margin_horizontal_for_tmpk">7dp</dimen> <!-- global_margin_horizontal - 10dp로 계산 -->
+</resources>

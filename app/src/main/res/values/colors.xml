@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#00FFFFFF</color>
+    <color name="colorAccent">#6E608B</color>
+    <color name="transparent">#00000000</color>
+    <color name="whiteTransparent">#1AFFFFFF</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="basicBlack">#292929</color>
+    <color name="basicBlack2">#332519</color>
+    <color name="highlight1">#e79862</color>
+    <color name="highlight1_sub">#ed9c54</color>
+    <color name="highlight1_translucent">#0DE79862</color>
+    <color name="highlight1_0.1">#1AE79862</color>
+    <color name="highlight1_0.5">#80E79862</color>
+    <color name="highlight1_sub_0.1">#1Aed9c54</color>
+    <color name="highlight1_sub_0.5">#80ed9c54</color>
+    <color name="highlight_red1">#E02020</color>
+    <color name="highlight_red1_translucent">#0DE02020</color>
+    <color name="highlight_green">#3AB577</color>
+    <color name="highlight_green_translucent">#0D3AB577</color>
+    <color name="highlight_blue1">#325E9C</color>
+    <color name="highlight_blue2">#5693E8</color>
+    <color name="highlight_yellow">#FFB65E</color>
+    <color name="highlight_yellow_translucent">#0DFFB65E</color>
+    <color name="youtube_red">#FF0000</color>
+
+    <color name="disabled1">#33332519</color>
+    <color name="disabled2">#787878</color>
+    <color name="basicBlack0.05">#0D292929</color>
+    <color name="basicBlack0.1">#1A292929</color>
+    <color name="basicBlack0.1solid">#E9E9E9</color>
+    <color name="basicBlack0.2">#33292929</color>
+    <color name="basicBlack0.3">#4D292929</color>
+    <color name="basicBlack0.3solid">#BEBEBE</color>
+    <color name="basicBlack0.4">#66292929</color>
+    <color name="basicBlack0.5">#80292929</color>
+    <color name="basicBlack0.7">#B3292929</color>
+
+    <color name="white0.05">#0DFFFFFF</color>
+    <color name="white0.1">#1AFFFFFF</color>
+    <color name="white0.4">#66FFFFFF</color>
+    <color name="white0.5">#80FFFFFF</color>
+    <color name="white0.7">#B3FFFFFF</color>
+    <color name="white0.8">#CCFFFFFF</color>
+    <color name="white0.9">#E6FFFFFF</color>
+
+</resources>

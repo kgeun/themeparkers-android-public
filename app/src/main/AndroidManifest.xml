@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.kgeun.themeparkers">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
+    <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="${appLabel}"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:name=".TPApplication"
+        android:theme="@style/Theme.Themeparkers"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:label, android:allowBackup">
+
+        <activity android:name=".view.TPIntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".TPMainActivity"/>
+        <activity android:name=".view.TPAttractionActivity"/>
+        <activity android:name=".view.TPImageViewerActivity"/>
+        <activity android:name=".view.TPAlarmActivity"
+            android:showOnLockScreen="true" />
+        <activity android:name=".view.TPChartActivity"/>
+
+        <service android:name=".AlarmService"/>
+
+
+        <receiver android:name=".util.DeviceBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".util.AlarmReceiver" />
+    </application>
+
+</manifest>

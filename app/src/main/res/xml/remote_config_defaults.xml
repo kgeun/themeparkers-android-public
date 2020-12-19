@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>kr_evl_main_type</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>kr_evl_show_waittime</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>kr_ltw_main_type</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>kr_ltw_show_waittime</key>
+        <value>false</value>
+    </entry>
+</defaultsMap>

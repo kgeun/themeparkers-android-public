@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/appTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="25dp"
+            android:text="테마파커스 1.0.0"
+            android:textColor="@color/basicBlack"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="25dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/developer_memoji"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"/>
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/basicBlack0.7"
+                android:ellipsize="end"
+                android:textSize="13dp"
+                android:text="@string/app_info_desc"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="25dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_highlight_sub_10dp"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:text="최신버전 업데이트 (1.0.2)"
+                android:textColor="@drawable/common_white_text_selector"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/devEmailText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_grey_10dp"
+                android:gravity="center"
+                android:text="버그신고 및 의견보내기"
+                android:textColor="@drawable/common_text_selector"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/btnClose"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_grey_10dp"
+                android:gravity="center"
+                android:text="닫기"
+                android:textColor="@drawable/common_text_selector"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/btnIntro"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="인트로화면 보기 (랜덤 테마)"
+                android:textColor="@color/basicBlack0.5"
+                android:textSize="12dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

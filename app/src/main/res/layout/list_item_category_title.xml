@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="categoryTitle"
+            type="java.lang.String"/>
+        <variable
+            name="categoryTitleEn"
+            type="java.lang.String"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/txtCategoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:textColor="@color/basicBlack"
+            android:text="@{categoryTitle}"/>
+
+        <TextView
+            android:id="@+id/txtCategoryTitleEn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/txtCategoryTitle"
+            android:textSize="14dp"
+            android:textColor="@color/basicBlack0.3"
+            android:text="@{categoryTitleEn}"/>
+
+        <LinearLayout
+            android:id="@+id/additionalInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/txtCategoryTitleEn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

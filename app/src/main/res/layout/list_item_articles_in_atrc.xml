@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="articleItem"
+            type="com.kgeun.themeparkers.data.ArticleItem" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layoutArticleItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:id="@+id/textArticleTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="@drawable/common_text_selector"
+            android:textStyle="bold"
+            android:textSize="13dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:includeFontPadding="false"
+            app:encodedText="@{articleItem.title}"/>
+
+        <TextView
+            android:id="@+id/textArticleDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/basicBlack0.5"
+            android:lineSpacingExtra="3dp"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:includeFontPadding="false"
+            app:encodedText="@{articleItem.description}"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="11dp">
+
+            <ImageView
+                android:id="@+id/imageArticleSourceThumb"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/icon_naver_blog"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/textBlogerName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                android:textColor="@color/highlight_green"
+                android:layout_marginLeft="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:includeFontPadding="false"
+                app:encodedText="@{articleItem.bloggername}"
+                app:layout_constraintLeft_toRightOf="@id/imageArticleSourceThumb"
+                app:layout_constraintRight_toLeftOf="@id/textArticleDate"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/textArticleDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                android:text="@{articleItem.postdate}"
+                android:textColor="@color/basicBlack0.3solid"
+                app:layout_constraintLeft_toRightOf="@id/textBlogerName"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

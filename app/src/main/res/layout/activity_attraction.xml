@@ -1,0 +1,1488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="atItem"
+            type="com.kgeun.themeparkers.data.Attraction" />
+        <variable
+            name="atDetail"
+            type="com.kgeun.themeparkers.data.AtrcDetail" />
+        <variable
+            name="activity"
+            type="com.kgeun.themeparkers.view.TPAttractionActivity" />
+        <variable
+            name="currentMin"
+            type="java.lang.Integer" />
+        <variable
+            name="showChart"
+            type="java.lang.Boolean" />
+        <variable
+            name="estiInfoOpened"
+            type="java.lang.Boolean" />
+        <variable
+            name="tpOperTime"
+            type="com.kgeun.themeparkers.data.OperTime" />
+        <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/loadingBar"
+            style="@style/SpinKitView.MultiplePulse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:SpinKit_Color="@color/basicBlack0.3"
+            android:layout_gravity="center"
+            android:visibility="@{(atDetail == null)? View.VISIBLE : View.GONE}"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/svAtrcContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{(atDetail == null)? View.GONE : View.VISIBLE}"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/atrcContentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
+
+                <FrameLayout
+                    android:id="@+id/atrcDetailThumbnailLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp">
+
+                    <ImageView
+                        android:id="@+id/imgAtrcDetailThumbnail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/placeholder_large"
+                        app:thumbnailUrl="@{atItem.thumbnailUrl}"
+                        app:largeThumbnailUrl="@{atItem.largeThumbnailUrl}" />
+
+                    <ImageView
+                        android:id="@+id/thumbnailGradient"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/big_thumbnail_gradient" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/global_margin_horizontal">
+
+                        <TextView
+                            android:id="@+id/textAtrcName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:hint="티 익스프레스"
+                            android:text="@{atItem.nameKR}"
+                            android:textColor="@color/basicBlack"
+                            android:textSize="22dp"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/btnFavoriteInContent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textAtrcNameSub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:encodedText="@{atItem.name}"
+                            android:textColor="@color/disabled1"
+                            android:textSize="17dp"
+                            android:visibility="@{atItem.name.isEmpty()? View.INVISIBLE : View.VISIBLE}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/btnFavoriteInContent"
+                            app:layout_constraintTop_toBottomOf="@id/textAtrcName" />
+
+                        <ImageView
+                            android:id="@+id/btnFavoriteInContent"
+                            android:layout_width="40dp"
+                            android:layout_height="0dp"
+                            android:adjustViewBounds="true"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:src="@drawable/icon_fav_selector_red"
+                            app:layout_constraintBottom_toBottomOf="@id/textAtrcNameSub"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/textAtrcName" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        areaName="@{atItem}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:drawableLeft="@drawable/icon_location_pin"
+                        android:layout_marginBottom="12dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:hint="구역이름"
+                        android:textColor="@color/disabled2"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/textDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:ellipsize="end"
+                        android:includeFontPadding="false"
+                        android:lineSpacingExtra="4dp"
+                        android:maxLines="3"
+                        android:onClick="@{() -> activity.clickDesc(atDetail.descriptionKR)}"
+                        android:text="@{atDetail.descriptionKR}"
+                        android:textColor="@color/basicBlack0.7"
+                        android:textSize="12dp"
+                        android:visibility="@{TextUtils.isEmpty(atDetail.descriptionKR.trim())? View.GONE : View.VISIBLE}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:setWaitVisible="@{atItem}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="13dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtWaitingTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="대기시간"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/btnStatistics"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="-2dp"
+                                android:layout_marginLeft="7dp"
+                                android:background="@drawable/btn_bg_white_9dp"
+                                android:drawableLeft="@drawable/ic_chart"
+                                android:drawablePadding="4dp"
+                                android:gravity="center_vertical"
+                                android:includeFontPadding="false"
+                                android:onClick="@{() -> activity.clickAnalysis(atItem, atDetail)}"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="6dp"
+                                android:text="분석"
+                                android:textColor="@drawable/common_text_selector"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                app:drawableTint="@drawable/common_text_selector"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/txtWaitingTitle"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/statusLayout"
+                                atrcStatusInDetail="@{atItem}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/textAtrcOver"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="운행종료"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/textAtrcClose"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="정기운휴"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/textAtrcWinterClose"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="동계운휴"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/textStandby"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="준비중"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/textAtrcUnknown"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="알수없음"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcAlert"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_alert" />
+
+                                    <TextView
+                                        android:id="@+id/textInspection"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:text="점검중"
+                                        android:includeFontPadding="false"
+                                        android:textColor="@color/highlight_red1"
+                                        android:textSize="15dp"
+                                        android:visibility="visible" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcRain"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_rain" />
+
+                                    <TextView
+                                        android:id="@+id/textRain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:text="우천대기"
+                                        android:includeFontPadding="false"
+                                        android:textColor="@color/highlight_red1"
+                                        android:textSize="15dp"
+                                        android:visibility="visible" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcWind"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_wind" />
+
+                                    <TextView
+                                        android:id="@+id/textWind"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:text="강풍대기"
+                                        android:textColor="@color/highlight_red1"
+                                        android:includeFontPadding="false"
+                                        android:textSize="15dp"
+                                        android:visibility="visible" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcSnow"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/ic_snowy" />
+
+                                    <TextView
+                                        android:id="@+id/textSnow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:text="빙설대기"
+                                        android:includeFontPadding="false"
+                                        android:textColor="@color/highlight_blue1"
+                                        android:textSize="15dp"
+                                        android:visibility="visible" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcCold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/ic_temp_cold" />
+
+                                    <TextView
+                                        android:id="@+id/textCold"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:text="혹한대기"
+                                        android:includeFontPadding="false"
+                                        android:textColor="@color/highlight_blue1"
+                                        android:textSize="15dp"
+                                        android:visibility="visible" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcWaitTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/ivTimeIcon"
+                                        android:layout_width="11dp"
+                                        android:layout_height="11dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_time" />
+
+                                    <TextView
+                                        android:id="@+id/textWaitMin"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:includeFontPadding="false"
+                                        android:text="10분"
+                                        android:textColor="@color/basicBlack"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        estiInDetail="@{atItem}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="@dimen/atrc_info_margin_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtEstiWaitingTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="예상 대기시간"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/estiStatusLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/textAtrcOverEsti"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="운행종료"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/textAtrcCloseEsti"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="정기운휴"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/textStandbyEsti"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="준비중"
+                                    android:textColor="@color/basicBlack"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcRainEsti"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_rain" />
+
+                                    <TextView
+                                        android:id="@+id/textRainEsti"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:text="우천"
+                                        android:textColor="@color/highlight_red1"
+                                        android:textSize="15dp"
+                                        android:visibility="visible" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llAtrcWaitTimeEsti"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/ivTimeIconEsti"
+                                        android:layout_width="11dp"
+                                        android:layout_height="11dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_time" />
+
+                                    <TextView
+                                        android:id="@+id/textWaitMinEsti"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="4dp"
+                                        android:includeFontPadding="false"
+                                        android:text="10분"
+                                        android:textColor="@color/basicBlack"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{atItem.kindCode.equals(`SHOW`)? View.VISIBLE : View.GONE }">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="@dimen/atrc_info_margin_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtShowPeriodTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="공연 소요시간"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txtShowPeriodInfo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="right"
+                                android:includeFontPadding="false"
+                                android:text="@{TextUtils.isEmpty(atDetail.playTime)? `정보없음` : (atDetail.playTime + `분`) }"
+                                android:textColor="@color/basicBlack"
+                                android:textColorHint="@color/highlight1"
+                                android:textSize="15dp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/txtShowPeriodTitle"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        operTimeStatusInDetail="@{atItem}"
+                        operTimeStatusInDetail2="@{atDetail}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="@dimen/atrc_info_margin_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtOperTimeTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="오늘의 운영시간"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/operTimeLayoutInDetail"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="right"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/txtOperTimeTitle"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/textOperTimeStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:includeFontPadding="false"
+                                    android:text="@{atDetail.openTm + ' ' + '~' + ' ' + atDetail.closeTm}"
+                                    android:textColor="@color/highlight1"
+                                    android:textColorHint="@color/highlight1"
+                                    android:layout_marginBottom="3dp"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/operTimeTextInDetail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/highlight1"
+                                    android:textColorHint="@color/highlight1"
+                                    android:textSize="12dp" />
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{atItem.kindCode.equals(`SHOW`)? View.VISIBLE : View.GONE}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="@dimen/atrc_info_margin_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtShowTimeTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="오늘의 공연시간"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txtShowTimeInfo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="right"
+                                android:includeFontPadding="false"
+                                android:text="@{TextUtils.isEmpty(atItem.showTimeParsedString)? `정보없음` : atItem.showTimeParsedString }"
+                                android:textColor="@color/basicBlack"
+                                android:textColorHint="@color/highlight1"
+                                android:textSize="15dp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/txtShowTimeTitle"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{TextUtils.isEmpty(atDetail.showPeriod)? View.GONE : View.VISIBLE}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="@dimen/atrc_info_margin_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtPeriodTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="공연기간"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txtPeriodInfo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="right"
+                                android:includeFontPadding="false"
+                                android:text="@{TextUtils.isEmpty(atDetail.showPeriod)? `정보없음` : atDetail.showPeriod }"
+                                android:textColor="@color/basicBlack"
+                                android:textColorHint="@color/highlight1"
+                                android:textSize="15dp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/txtPeriodTitle"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{TextUtils.isEmpty(atDetail.availDescKR)? View.GONE : View.VISIBLE}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:background="@color/basicBlack0.05" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/limitInfoLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginVertical="@dimen/atrc_info_margin_vertical">
+
+                            <TextView
+                                android:id="@+id/txtLimitTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="탑승 제한정보"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="13dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txtLimitInfo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="right"
+                                android:text="@{TextUtils.isEmpty(atDetail.availDescKR)? `정보없음` : atDetail.availDescKR}"
+                                android:textColor="@color/basicBlack"
+                                android:lineSpacingExtra="5dp"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/txtLimitTitle"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/basicBlack0.05"
+                        android:visibility="@{atDetail.relatedVideo.size() == 0? View.GONE : View.VISIBLE}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{atDetail.relatedVideo.size() == 0? View.GONE : View.VISIBLE}">
+
+                        <TextView
+                            android:id="@+id/txtVideoTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:text="어트랙션 영상"
+                            android:textColor="@color/basicBlack"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+                            android:fillViewport="true"
+                            android:paddingHorizontal="@dimen/global_margin_horizontal"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:id="@+id/llRelatedVideos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal"
+                                app:keyword="@{atItem.tpNameKR + ' ' + atItem.nameKR}"
+                                app:videoListInAtrc="@{atDetail.relatedVideo}" />
+
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/chartLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp"
+                        showEstiInfo="@{atItem}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:background="@color/basicBlack0.05" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:onClick="@{() -> activity.clickEstiDesc()}">
+
+                                <ImageView
+                                    android:id="@+id/ivChartIcon"
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_marginTop="20dp"
+                                    android:src="@drawable/ic_chart"
+                                    android:layout_marginBottom="3dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                                <TextView
+                                    android:id="@+id/txtEstiChartTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="오늘의 예상 대기시간"
+                                    android:textColor="@color/basicBlack"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="3dp"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toRightOf="@id/ivChartIcon"/>
+
+                                <TextView
+                                    android:id="@+id/btnEstiInfo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:drawableLeft="@drawable/ic_info2"
+                                    android:drawableRight="@drawable/ic_down_arrow2"
+                                    android:text="상세정보"
+                                    android:includeFontPadding="false"
+                                    android:gravity="center_vertical"
+                                    app:estiInfoOpened="@{estiInfoOpened}"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="6dp"
+                                    android:paddingVertical="5dp"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    android:background="@drawable/bg_solid_basicblack03solid_15dp"
+                                    app:drawableTint="@drawable/common_white_text_selector"
+                                    android:textColor="@drawable/common_white_text_selector"
+                                    android:drawablePadding="5dp" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <com.github.mikephil.charting.charts.BarChart
+                                android:id="@+id/estiChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="320dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="10dp"
+                                setAtItem="@{atItem}"
+                                setEstiChartData="@{atDetail}"
+                                setChartColorByMin="@{currentMin}"
+                                atrcActivity="@{activity}"
+                                tpOperTime="@{tpOperTime}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/secondRowInfoLayout"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/textChartError"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="@{showChart? View.GONE : View.VISIBLE}"
+                                android:text="죄송합니다.\n현재 차트를 불러올 수 없습니다."
+                                android:lineSpacingExtra="6dp"
+                                android:textColor="@color/basicBlack0.7"
+                                android:gravity="center"
+                                android:textSize="13dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginBottom="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/secondRowInfoLayout"/>
+
+                            <LinearLayout
+                                android:id="@+id/estiDescLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:orientation="horizontal">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        app:showPopularityText="@{atItem.popularity}"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="fill_horizontal"
+                                        android:layout_marginRight="10dp">
+
+                                        <TextView
+                                            android:id="@+id/txtPopularityTitle"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="인기도"
+                                            android:textColor="@color/basicBlack"
+                                            android:textSize="13dp"
+                                            android:layout_marginBottom="11dp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintLeft_toLeftOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <ImageView
+                                            android:id="@+id/ivPopularity"
+                                            android:layout_width="8dp"
+                                            android:layout_height="8dp"
+                                            android:src="@drawable/ic_circle"
+                                            android:layout_marginRight="5dp"
+                                            app:layout_constraintRight_toLeftOf="@id/txtPopularity"
+                                            app:layout_constraintTop_toTopOf="@id/txtPopularity"
+                                            app:layout_constraintBottom_toBottomOf="@id/txtPopularity"
+                                            />
+                                        <TextView
+                                            android:id="@+id/txtPopularity"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="11dp"
+                                            android:gravity="right"
+                                            android:includeFontPadding="false"
+                                            android:textColor="@color/basicBlack"
+                                            android:textColorHint="@color/highlight1"
+                                            android:textSize="13dp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintRight_toRightOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginTop="10dp"
+                                            android:background="@color/basicBlack0.05"
+                                            app:layout_constraintBottom_toBottomOf="parent"/>
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginLeft="10dp"
+                                        app:showDayOfWk="@{atDetail}"
+                                        android:layout_gravity="fill_horizontal">
+
+                                        <TextView
+                                            android:id="@+id/txtDayofWkTitle"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="11dp"
+                                            android:text="요일"
+                                            android:textColor="@color/basicBlack"
+                                            android:textSize="13dp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintLeft_toLeftOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <ImageView
+                                            android:id="@+id/ivDayOfWk"
+                                            android:layout_width="8dp"
+                                            android:layout_height="8dp"
+                                            android:src="@drawable/ic_circle"
+                                            android:layout_marginRight="5dp"
+                                            app:layout_constraintRight_toLeftOf="@id/txtDayofWk"
+                                            app:layout_constraintTop_toTopOf="@id/txtDayofWk"
+                                            app:layout_constraintBottom_toBottomOf="@id/txtDayofWk"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/txtDayofWk"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="11dp"
+                                            android:gravity="right"
+                                            android:includeFontPadding="false"
+                                            android:text="금요일"
+                                            android:textColor="@color/basicBlack"
+                                            android:textColorHint="@color/highlight1"
+                                            android:textSize="13dp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintRight_toRightOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginTop="10dp"
+                                            android:background="@color/basicBlack0.05"
+                                            app:layout_constraintBottom_toBottomOf="parent"/>
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/secondRowInfoLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="13dp">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/holidayLayout"
+                                        android:layout_height="match_parent"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="fill_horizontal"
+                                        app:showHoliday="@{atDetail}"
+                                        android:layout_marginRight="10dp">
+
+                                        <TextView
+                                            android:id="@+id/txtHolidayTitle"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="공휴일 여부"
+                                            android:textColor="@color/basicBlack"
+                                            android:textSize="13dp"
+                                            android:layout_marginBottom="11dp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintLeft_toLeftOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <ImageView
+                                            android:id="@+id/ivHoliday"
+                                            android:layout_width="8dp"
+                                            android:layout_height="8dp"
+                                            android:src="@drawable/ic_circle"
+                                            android:layout_marginRight="5dp"
+                                            app:layout_constraintRight_toLeftOf="@id/txtHoliday"
+                                            app:layout_constraintTop_toTopOf="@id/txtHoliday"
+                                            app:layout_constraintBottom_toBottomOf="@id/txtHoliday"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/txtHoliday"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="11dp"
+                                            android:gravity="right"
+                                            android:includeFontPadding="false"
+                                            android:text="평일"
+                                            android:textColor="@color/basicBlack"
+                                            android:textColorHint="@color/highlight1"
+                                            android:textSize="13dp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintRight_toRightOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginTop="10dp"
+                                            android:background="@color/basicBlack0.05"
+                                            app:layout_constraintBottom_toBottomOf="parent"/>
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/weatherLayout"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_gravity="fill_horizontal">
+
+                                        <TextView
+                                            android:id="@+id/txtWeatherTitle"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="11dp"
+                                            android:text="오늘 날씨"
+                                            android:textColor="@color/basicBlack"
+                                            android:textSize="13dp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintLeft_toLeftOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/txtWeather"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="11dp"
+                                            app:setWeatherText="@{atDetail}"
+                                            android:gravity="right"
+                                            android:includeFontPadding="false"
+                                            android:text="맑음, 25°C"
+                                            android:textColor="@color/basicBlack"
+                                            android:textColorHint="@color/highlight1"
+                                            android:textSize="13dp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintLeft_toRightOf="@id/txtWeatherTitle"
+                                            app:layout_constraintRight_toRightOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginTop="10dp"
+                                            android:background="@color/basicBlack0.05"
+                                            app:layout_constraintBottom_toBottomOf="parent"/>
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="19dp"
+                                    android:layout_marginBottom="14dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_horizontal"
+                                    android:textSize="12dp"
+                                    android:lineSpacingExtra="6dp"
+                                    android:textColor="@color/basicBlack0.5"
+                                    android:text="예상 대기시간은 위의 4가지 요소를 고려해,\n테마파커스만의 알고리즘을 통해 계산됩니다."/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp"
+                        android:visibility="@{TextUtils.isEmpty(atItem.showTimeParsedString)? View.GONE : View.VISIBLE}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"
+                            android:background="@color/basicBlack0.05" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtAlarmTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="🔔 공연시간 알리미"
+                                android:textColor="@color/basicBlack"
+                                android:textSize="16dp"
+                                android:textStyle="bold" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvAlarm"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:nestedScrollingEnabled="false"
+                                android:orientation="vertical"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/list_item_show_alarm" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{atDetail.relatedArticleKR.size() == 0? View.GONE : View.VISIBLE}">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:background="@color/basicBlack0.05" />
+
+                        <TextView
+                            android:id="@+id/txtAtrcArticleTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:text="어트랙션 소개"
+                            android:textColor="@color/basicBlack"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/llAtrcArticle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            app:articleListInAtrc="@{atDetail.relatedArticleKR}" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/moreArticles"
+                            android:layout_width="match_parent"
+                            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/btn_bg_white_10dp"
+                            app:articleKeyword="@{atItem.tpNameKR + ' ' + atItem.nameKR}">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="더보기"
+                                android:textColor="@drawable/common_text_selector"
+                                android:textSize="13dp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/mapDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/basicBlack0.05"
+                        android:visibility="@{TextUtils.isEmpty(atDetail.mapImageUrl)? View.GONE : View.VISIBLE}" />
+
+                    <LinearLayout
+                        mapImage="@{atDetail}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="@{TextUtils.isEmpty(atDetail.mapImageUrl)? View.GONE : View.VISIBLE}">
+
+                        <TextView
+                            android:id="@+id/txtLocationTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="위치"
+                            android:textColor="@color/basicBlack"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                        
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imageMap"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:adjustViewBounds="true" />
+
+                            <ImageView
+                                android:id="@+id/ivMapMarker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_map_marker"
+                                android:visibility="gone"/>
+
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/atrcHeaderBtnLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                >
+
+                <View
+                    android:id="@+id/statusbarView"
+                    style="@style/StatusBar" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnBackHeaderWhite"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bg_translucent_white"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_close_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/atrcHeaderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <View
+                    android:id="@+id/statusbarView2"
+                    style="@style/StatusBar" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnBackHeader"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:src="@drawable/icon_close_basicblack"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textHeaderAtrcName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@{atItem.nameKR}"
+                        android:textColor="@color/basicBlack"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/btnBackHeader"
+                        app:layout_constraintRight_toLeftOf="@id/btnFavoriteInHeader"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/btnFavoriteInHeader"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:padding="18dp"
+                        android:src="@drawable/icon_fav_selector_basicblack"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/basicBlack0.1" />
+            </LinearLayout>
+        </FrameLayout>
+
+    </FrameLayout>
+</layout>

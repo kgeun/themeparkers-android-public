@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="25dp"
+            android:text="조건설정"
+            android:textColor="@color/basicBlack"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:clipChildren="false">
+
+            <TextView
+                android:id="@+id/heightTitle"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="7dp"
+                android:textColor="@color/basicBlack0.7"
+                android:layout_marginTop="35dp"
+                android:textSize="14dp"
+                android:text="키 설정"/>
+
+            <com.jaygoo.widget.RangeSeekBar
+                android:id="@+id/heightSeekbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                app:rsb_gravity="bottom"
+                app:rsb_indicator_arrow_size="6dp"
+                app:rsb_indicator_background_color="@color/basicBlack0.05"
+                app:rsb_indicator_height="wrap_content"
+                app:rsb_indicator_margin="5dp"
+                app:rsb_indicator_padding_bottom="9dp"
+                app:rsb_indicator_padding_left="10dp"
+                app:rsb_indicator_padding_right="10dp"
+                app:rsb_indicator_padding_top="9dp"
+                app:rsb_indicator_radius="5dp"
+                app:rsb_indicator_show_mode="alwaysShow"
+                app:rsb_indicator_text_color="@color/basicBlack0.5"
+                app:rsb_indicator_text_size="13dp"
+                app:rsb_indicator_width="wrap_content"
+                app:rsb_max="152"
+                app:rsb_min="80"
+                app:rsb_mode="single"
+                app:rsb_progress_color="@color/highlight1_sub_0.5"
+                app:rsb_progress_default_color="#f1f1f1"
+                app:rsb_progress_height="4dp"
+                app:rsb_progress_radius="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/waittimeFilterLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:clipChildren="false">
+
+            <TextView
+                android:id="@+id/statusTitle"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="7dp"
+                android:textColor="@color/basicBlack0.7"
+                android:textSize="14dp"
+                android:text="대기시간"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="20dp"/>
+
+            <com.jaygoo.widget.RangeSeekBar
+                android:id="@+id/attractionStatusSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                app:rsb_gravity="center"
+                app:rsb_indicator_text_size="13dp"
+                app:rsb_max="3"
+                app:rsb_min="0"
+                app:rsb_mode="single"
+                app:rsb_progress_color="#EFC6A2"
+                app:rsb_progress_default_color="#f1f1f1"
+                app:rsb_progress_height="4dp"
+                app:rsb_progress_radius="10dp"
+                app:rsb_step_auto_bonding="true"
+                app:rsb_step_color="@android:color/transparent"
+                app:rsb_step_height="10dp"
+                app:rsb_step_radius="10dp"
+                app:rsb_step_width="10dp"
+                app:rsb_steps="3"
+                app:rsb_tick_mark_gravity="center"
+                app:rsb_tick_mark_layout_gravity="bottom"
+                app:rsb_tick_mark_mode="other"
+                app:rsb_tick_mark_text_color="@color/basicBlack0.5"
+                app:rsb_tick_mark_text_margin="25dp"
+                app:rsb_tick_mark_text_size="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="25dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_highlight_sub_10dp"
+                android:gravity="center"
+                android:text="적용"
+                android:textColor="@drawable/common_white_text_selector"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/btnClear"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="초기화"
+                android:textColor="@color/basicBlack0.5"
+                android:textSize="12dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

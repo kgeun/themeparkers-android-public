@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="themeparks"
+            type="java.util.List&lt;com.kgeun.themeparkers.data.Themepark&gt;"/>
+
+        <variable
+            name="nowLoading"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="currentThemepark"
+            type="com.kgeun.themeparkers.data.Themepark" />
+
+        <variable
+            name="activity"
+            type="com.kgeun.themeparkers.TPMainActivity" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/statusbarView"
+            android:background="@color/white"
+            style="@style/StatusBar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            tools:context=".TPMainActivity">
+
+            <HorizontalScrollView
+                android:id="@+id/svTpTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/layoutThemeparkList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/global_margin_horizontal_for_tmpk"
+                    android:orientation="horizontal"
+                    app:list="@{themeparks}"
+                    app:setActivity="@{activity}"
+                    app:setCurrentThemepark="@{currentThemepark}"
+                    app:isLockTmpks="@{nowLoading}"/>
+
+            </HorizontalScrollView>
+
+            <ImageView
+                android:id="@+id/btnAppInfo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/svTpTitle"
+                android:onClick="@{() -> activity.openAppInfo()}"
+                android:src="@drawable/ic_info"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/svTpTitle"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/mainPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{nowLoading? View.GONE : View.VISIBLE}"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/loadingBar"
+                        style="@style/SpinKitView.MultiplePulse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:SpinKit_Color="@color/basicBlack0.3" />
+                </LinearLayout>
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

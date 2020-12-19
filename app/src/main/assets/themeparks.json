@@ -1,0 +1,22 @@
+[
+  {
+    "id" : 1,
+    "name" : "에버랜드",
+    "tpCode" : "KR_EVL"
+  },
+  {
+    "id" : 2,
+    "name" : "유니버설 스튜디오 재팬",
+    "tpCode" : "JP_USJ"
+  },
+  {
+    "id" : 3,
+    "name" : "도쿄 디즈니랜드",
+    "tpCode" : "JP_TDL"
+  },
+  {
+    "id" : 4,
+    "name" : "도쿄 디즈니씨",
+    "tpCode" : "JP_TDS"
+  }
+]

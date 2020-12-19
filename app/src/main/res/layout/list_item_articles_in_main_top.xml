@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="articleItem"
+            type="com.kgeun.themeparkers.data.Article" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/articleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        setArticleClick="@{articleItem.url}">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageArticleThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:cardCornerRadius="18dp"
+            android:background="@color/white"
+            android:elevation="0dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.github.abdularis.piv.VerticalScrollParallaxImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:background="@color/white"
+                app:atclThumbnail="@{articleItem.thumbnailUrl}"
+                tools:background="@drawable/image_placeholder_wide" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textArticleTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="8dp"
+            android:breakStrategy="simple"
+            android:ellipsize="end"
+            android:hyphenationFrequency="none"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="7dp"
+            android:maxLines="2"
+            android:textColor="@drawable/common_text_selector"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            android:text="@{articleItem.title}"
+            tools:text="도쿄 디즈니랜드 - 미녀와 야수 '마법 이야기' 라이드 영상 공개" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:id="@+id/ivAuthor"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                app:atclAuthorThumbnail="@{articleItem.authorThumbnailUrl}" />
+
+            <TextView
+                android:id="@+id/textAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="3dp"
+                android:maxLines="1"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:text="@{articleItem.siteName}"
+                android:textColor="@color/basicBlack0.7"
+                android:textSize="13dp"
+                tools:text="하늘급행" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="8dp"
+            android:maxLines="3"
+            android:layout_marginTop="18dp"
+            android:layout_gravity="center_vertical"
+            encodedText="@{articleItem.description}"
+            android:textColor="@color/basicBlack"
+            android:textSize="14dp"
+            tools:text="텍스트트트트트트트" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/basicBlack0.05" />
+
+    </LinearLayout>
+</layout>

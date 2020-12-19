@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="titleAreaName"
+            type="java.lang.String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/splashImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="@android:color/white"/>
+
+        <View
+            android:id="@+id/titleGreyLayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/basicBlack0.5"/>
+
+        <ImageView
+            android:id="@+id/ivTitle"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/ic_themeparkers_title_text_white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:text="@{titleAreaName}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/icon_location_pin_white"
+            android:layout_marginBottom="12dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:drawableTint="@color/white"
+            app:layout_constraintLeft_toLeftOf="@id/ivTitle"
+            app:layout_constraintTop_toBottomOf="@id/ivTitle"
+            android:textSize="13dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

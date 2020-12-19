@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+            <variable
+                name="statItem"
+                type="com.kgeun.themeparkers.data.StatisticItem" />
+            <variable
+                name="name"
+                type="java.lang.String" />
+            <variable
+                name="activity"
+                type="com.kgeun.themeparkers.view.TPChartActivity" />
+            <variable
+                name="tpOperTime"
+                type="com.kgeun.themeparkers.data.OperTime" />
+            <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:visibility="visible"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/atrcHeaderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <View
+                android:id="@+id/statusbarView"
+                style="@style/StatusBar" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <ImageView
+                    android:id="@+id/btnBackHeader"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:onClick="@{() -> activity.finish()}"
+                    android:src="@drawable/icon_close_basicblack"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textHeaderAtrcName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@{name}"
+                    android:textColor="@color/basicBlack"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/btnBackHeader"
+                    app:layout_constraintRight_toLeftOf="@id/btnRefresh"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/btnRefresh"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/ic_refresh"
+                    android:onClick="@{() -> activity.update()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/timeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/atrcHeaderLayout"
+            android:layout_marginTop="30dp"
+            android:textSize="15dp"
+            android:textColor="@color/basicBlack"
+            android:text="마지막 업데이트 시간"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/textUpdateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeTitle"
+            android:layout_marginTop="10dp"
+            android:textSize="14dp"
+            android:visibility="invisible"
+            app:timeText="@{statItem.maxTime}"
+            android:textColor="@color/basicBlack0.5"
+            android:text="2020년 10월 30일 18:30" />
+
+        <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
+            android:id="@+id/historyTypeSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="60dp"
+            android:background="@color/basicBlack0.05"
+            android:layout_marginTop="30dp"
+            app:radius="11dp"
+            app:draggable="true"
+            app:layout_constraintTop_toBottomOf="@id/textUpdateTime"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:ripple="false"
+            app:selectedBackground="@color/white"
+            app:selectedBorderColor="@color/basicBlack0.1"
+            app:selectedBorderWidth="1dp"
+            app:selectedButtonRadius="11dp"
+            app:selectionAnimationDuration="500">
+
+            <com.addisonelliott.segmentedbutton.SegmentedButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:text="일주일 전 대기시간"
+                android:padding="10dp"
+                app:textSize="12dp"
+                app:textColor="@color/basicBlack"
+                app:selectedTextStyle="bold"/>
+
+            <com.addisonelliott.segmentedbutton.SegmentedButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:text="어제 대기시간"
+                android:padding="10dp"
+                app:textSize="12dp"
+                app:textColor="@color/basicBlack"
+                app:selectedTextStyle="bold"/>
+
+        </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/atrcChart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:visibility="@{(statItem == null)? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/historyTypeSelect"
+            app:setData="@{statItem}"
+            app:setActivity="@{activity}"
+            />
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/loadingBar"
+            style="@style/SpinKitView.MultiplePulse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:SpinKit_Color="@color/basicBlack0.3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/historyTypeSelect"
+            android:visibility="@{(statItem == null)? View.VISIBLE : View.GONE}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

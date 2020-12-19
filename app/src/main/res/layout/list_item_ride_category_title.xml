@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="categoryTitle"
+            type="java.lang.String"/>
+        <variable
+            name="categoryTitleEn"
+            type="java.lang.String"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/txtCategoryTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{categoryTitle}"
+            android:textColor="@color/basicBlack"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnFilterLayout"
+            />
+
+        <TextView
+            android:id="@+id/txtCategoryTitleEn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/global_margin_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/txtCategoryTitle"
+            android:textSize="14dp"
+            android:textColor="@color/basicBlack0.3"
+            android:layout_marginLeft="@dimen/global_margin_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnFilterLayout"
+            android:text="@{categoryTitleEn}"/>
+
+        <LinearLayout
+            android:id="@+id/additionalInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/txtCategoryTitle" />
+
+        <LinearLayout
+            android:id="@+id/btnFilterLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="center_vertical|right">
+
+            <TextView
+                android:id="@+id/btnFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:drawableLeft="@drawable/ic_filter"
+                android:drawableRight="@drawable/ic_down_arrow2"
+                android:text="전체"
+                android:includeFontPadding="false"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="@dimen/global_margin_horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="6dp"
+                android:paddingVertical="5dp"
+                android:background="@drawable/bg_solid_basicblack03solid_15dp"
+                app:drawableTint="@drawable/common_white_text_selector"
+                android:textColor="@drawable/common_white_text_selector"
+                android:drawablePadding="5dp" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
